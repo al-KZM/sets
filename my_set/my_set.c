@@ -21,6 +21,15 @@
 #define same_str(s1, s2) (strcmp(s1, s2) == 0)
 
 
+
+struct ints_buffer{
+    int arr[];
+    int capacity;
+    int elems;
+}
+
+struct ints_buffer * init_buffer()
+
 void print_error(int status_code){
     switch (status_code){
         case FAIL_CODE_INVALID_COMMA:
@@ -93,6 +102,78 @@ int read_line(char **buf_ptr){
     return 0;
 }
 
+int is_valid_operand(char *operand){
+    if (
+            same_str(operand, "SETA") ||
+            same_str(operand, "SETB") ||
+            same_str(operand, "SETC") ||
+            same_str(operand, "SETD") ||
+            same_str(operand, "SETE") ||
+            same_str(operand, "SETF")
+        )
+        return 1;
+    return 0;
+}
+
+int has_consecutive_comma(char *str){
+    while ( *str++ == ' ')
+        {}
+
+    if (*str == ',')
+        return 1;
+
+    return 0;
+
+}
+
+char * goto_comma(char *str, int *comma_pos, int *status_code){
+    char c;
+    int i;
+
+    *status_code = SUCCESS_CODE;
+    i=0;
+    while ( (c = *str++) != ','){
+        if (c == '\0'){
+            *status_code = FAIL_CODE_NO_COMMA_FOUND;
+            return NULL;
+        }
+        i++;
+    }
+
+    if (has_consecutive_comma(str)){
+        *status_code = FAIL_CODE_CONSECUTIVE_COMMAS;
+        return NULL;
+    }
+
+    if (comma_pos != NULL){
+        *comma_pos = i;
+    }
+
+    return str;
+
+}
+
+char * parse_operand(char *str, char *to, int *status_code){
+    int i;
+
+    *status_code = SUCCESS_CODE;
+
+    for (i=0; i < OPERAND_NAME_SIZE; i++){
+        if ( !(isalpha(*str)) ){
+            *status_code = FAIL_CODE_ILLEGAL_OPERAND_NAME;
+            return NULL;
+        }
+
+        *to++ = *str++;
+    }
+
+    if (!is_valid_operand(to)){
+        *status_code = FAIL_CODE_ILLEGAL_OPERAND_NAME;
+        return NULL;
+    }
+
+    return str;
+}
 
 char * parse_operation(char *cmd, char *op, int max_len, int *status_code){
     char c;
@@ -103,7 +184,7 @@ char * parse_operation(char *cmd, char *op, int max_len, int *status_code){
     i = 0;
     while ( (c = *cmd++) != ' '){
 
-        if (c == EOF || c == '\0'){
+        if (c == '\0'){
             *status_code = END_OF_CMD_CODE;
             break;
         }
@@ -156,13 +237,25 @@ int init_operation_config(char *operation, int *operands_required_num, int *args
         return SUCCESS_CODE;
 }
 
+int add_int_to_arr(int arr[], int val){
+
+}
+
 int exec_cmd(char *cmd){
+    char c;
+    int i;
     int status_code;
     char *str_ptr;
 
     char operation[MAX_OP_LEN];
+    char operands[3][4];
+    char operand[4];
 
-    int *operands_required_num, *args_required;
+    int arguments[5];
+
+    int comma_pos;
+
+    int operands_required_num, args_required;
 
     status_code = 0;
 
@@ -172,9 +265,24 @@ int exec_cmd(char *cmd){
     str_ptr = parse_operation(str_ptr, operation, MAX_OP_LEN, &status_code);
 
     /* Initialize configuration flags for every operation */
-    status_code = init_operation_config(operation, operands_required_num, args_required);
+    status_code = init_operation_config(operation, &operands_required_num, &args_required);
 
-    return 1;
+    /* Parse the right number of operands */
+    for (i=0; i < operands_required_num; i++){
+        str_ptr = parse_operand(str_ptr, operands[i], &status_code);
+        str_ptr = goto_comma(str_ptr, &comma_pos, &status_code);
+    }
+
+    /* Check if this command needs arguments */
+    if ( args_required == 0 ){
+        /* Execute the operation with the right operands */
+    }
+    else{
+        /* Parse the arguments */
+    }
+
+
+    return SUCCESS_CODE;
 
 }
 
