@@ -6,6 +6,7 @@
 
 #define MAX_OP_LEN 30
 #define LINE_BUFFER_CAPACITY 30
+#define OPERAND_NAME_SIZE 4
 
 #define SUCCESS_CODE 0
 #define FAIL_CODE 1
@@ -17,18 +18,16 @@
 #define FAIL_CODE_INVALID_COMMA 10
 #define FAIL_CODE_OP_OVERFLOW 12
 #define FAIL_CODE_UNKNOWN_CMD 13
+#define FAIL_CODE_CONSECUTIVE_COMMAS 14
+#define FAIL_CODE_ILLEGAL_OPERAND_NAME 15
+#define FAIL_CODE_INVALID_ARGUMENT 16
+#define FAIL_CODE_BAD_ENDING_POS 17
+#define FAIL_CODE_ARG_OUT_OF_RANGE 18
+#define FAIL_CODE_TRAILING_COMMA 19
+#define FAIL_CODE_NO_COMMA_FOUND 20
 
 #define same_str(s1, s2) (strcmp(s1, s2) == 0)
 
-
-
-struct ints_buffer{
-    int arr[];
-    int capacity;
-    int elems;
-}
-
-struct ints_buffer * init_buffer()
 
 void print_error(int status_code){
     switch (status_code){
@@ -211,21 +210,21 @@ char * parse_operation(char *cmd, char *op, int max_len, int *status_code){
 }
 
 int init_operation_config(char *operation, int *operands_required_num, int *args_required){
-        if (same_str(command, "stop"))
+        if (same_str(operation, "stop"))
             return STOP_CODE;
-        else if (same_str("read_set", command)){
+        else if (same_str("read_set", operation)){
             *operands_required_num = 1;
             *args_required = 1;
         }
-        else if (same_str("print_set", command)){
+        else if (same_str("print_set", operation)){
             *operands_required_num = 1;
             *args_required = 0;
         }
         else if (
-                same_str("union_set", command) ||
-                same_str("intersect_set", command) ||
-                same_str("sub_set", command) ||
-                same_str("symdiff_set", command)
+                same_str("union_set", operation) ||
+                same_str("intersect_set", operation) ||
+                same_str("sub_set", operation) ||
+                same_str("symdiff_set", operation)
                 ){
             *operands_required_num = 3;
             *args_required = 1;
@@ -237,21 +236,28 @@ int init_operation_config(char *operation, int *operands_required_num, int *args
         return SUCCESS_CODE;
 }
 
-int add_int_to_arr(int arr[], int val){
+int count_commas(char *str){
+    int count = 0;
+    char c;
 
+    while ((c = *str++) != '\0'){
+        if (c == ',') count++;
+    }
+    return count;
 }
 
 int exec_cmd(char *cmd){
     char c;
-    int i;
+    int i, j;
     int status_code;
     char *str_ptr;
 
     char operation[MAX_OP_LEN];
     char operands[3][4];
-    char operand[4];
 
-    int arguments[5];
+    int number;
+    int arguments_count;
+    int *arguments;
 
     int comma_pos;
 
@@ -277,8 +283,48 @@ int exec_cmd(char *cmd){
     if ( args_required == 0 ){
         /* Execute the operation with the right operands */
     }
-    else{
-        /* Parse the arguments */
+    else{ /* Parse the arguments */
+
+        /* Check how many arguments are at most in the string and initialize an array out of that */
+        arguments_count = count_commas(str_ptr) + 1;
+        arguments = calloc(arguments_count, sizeof(int));
+
+        for (i=0; i<arguments_count; i++){
+            /* First, check if the number is -1 */
+            if ( str_ptr[0] == '-' && str_ptr[1] == '1' ){
+                if ( str_ptr[2] == '\0' ){
+                    /* Gently exit the loop */
+                    break;
+                }
+
+                if ( str_ptr[2] == ',' ) {
+                    if ( str_ptr[3] == '\0' )
+                        return FAIL_CODE_TRAILING_COMMA;
+                    else
+                        return FAIL_CODE_BAD_ENDING_POS;
+                }
+            }
+
+            goto_comma(str_ptr, &comma_pos, &status_code);
+            number = 0;
+            /* Parse number */
+            for (j=0; j < comma_pos; j++){
+                c = *str_ptr++;
+
+                if (!isdigit(c)){
+                    return FAIL_CODE_INVALID_ARGUMENT;
+                }
+                number *= 10;
+                number += (int) c;
+                if (number < 0 || number > 127)
+                    return FAIL_CODE_ARG_OUT_OF_RANGE;
+            }
+            arguments[i] = number;
+            /* Move after the comma */
+            str_ptr++;
+
+        } /* End of argument parsing */
+
     }
 
 
@@ -289,8 +335,6 @@ int exec_cmd(char *cmd){
 int main(int argc, char *argv[]){
     char *line_ptr;
 	int keep_running;
-	char c;
-	char command[30], set1[4], set2[4], set3[4];
     int status_code;
 
 	keep_running = 1;
@@ -305,7 +349,6 @@ int main(int argc, char *argv[]){
         status_code = exec_cmd(line_ptr);
         if (status_code != SUCCESS_CODE)
             print_error(status_code);
-
 	}
 
 	return 0;
