@@ -1,0 +1,65 @@
+
+
+Mon May 10 22:46:09 2021
+Command line: TestDisk
+
+TestDisk 7.1, Data Recovery Utility, July 2019
+Christophe GRENIER <grenier@cgsecurity.org>
+https://www.cgsecurity.org
+OS: Linux, kernel 5.10.28-1-lts (#1 SMP Wed, 07 Apr 2021 15:18:42 +0000) x86_64
+Compiler: GCC 10.1
+ext2fs lib: 1.46.2, ntfs lib: libntfs-3g, reiserfs lib: 0.3.0.5, ewf lib: none, curses lib: ncurses 6.2
+User is not root!
+Hard disk list
+
+
+TestDisk exited normally.
+Using locale 'en_US.UTF-8'.
+
+
+Mon May 10 22:46:12 2021
+Command line: TestDisk /debug
+
+TestDisk 7.1, Data Recovery Utility, July 2019
+Christophe GRENIER <grenier@cgsecurity.org>
+https://www.cgsecurity.org
+OS: Linux, kernel 5.10.28-1-lts (#1 SMP Wed, 07 Apr 2021 15:18:42 +0000) x86_64
+Compiler: GCC 10.1
+ext2fs lib: 1.46.2, ntfs lib: libntfs-3g, reiserfs lib: 0.3.0.5, ewf lib: none, curses lib: ncurses 6.2
+Warning: can't get size for Disk /dev/mapper/control - 0 B - 0 sectors, sector size=512
+Hard disk list
+Disk /dev/sda - 7801 MB / 7440 MiB - CHS 1024 240 62, sector size=512 - Generic Flash Disk, FW:8.07
+Disk /dev/nvme0n1 - 512 GB / 476 GiB - CHS 488386 64 32, sector size=512
+
+Partition table type (auto): EFI GPT
+Disk /dev/nvme0n1 - 512 GB / 476 GiB
+Partition table type: EFI GPT
+
+Interface Advanced
+hdr_size=92
+hdr_lba_self=1
+hdr_lba_alt=1000215215 (expected 1000215215)
+hdr_lba_start=34
+hdr_lba_end=1000215182
+hdr_lba_table=2
+hdr_entries=128
+hdr_entsz=128
+check_part_gpt failed for partition
+ 6 P MS Reserved            744865792  744898559      32768 [Microsoft reserved partition]
+ 1 P MS Data                     2048   24578047   24576000 [Recovery]
+     NTFS, blocksize=4096, 12 GB / 11 GiB
+ 2 P EFI System              24578048   24782847     204800 [EFI System Partition]
+ 3 P Linux filesys. data     24782848  332449791  307666944
+ 4 P Linux filesys. data    332449792  497291263  164841472
+ 5 P Linux filesys. data    497291264  744865791  247574528
+ 6 P MS Reserved            744865792  744898559      32768 [Microsoft reserved partition]
+ 7 P MS Data                744898560  874692607  129794048 [Basic data partition]
+     NTFS, blocksize=4096, 66 GB / 61 GiB
+ 8 P MS Data                874692608  886980607   12288000 [Linux_Windows_Bridge]
+     NTFS, blocksize=4096, 6291 MB / 6000 MiB
+ 9 P Linux filesys. data    886980608  939409407   52428800
+10 P Linux filesys. data    939409408  944529407    5120000
+11 P Linux filesys. data    945700864  998129663   52428800
+12 P MS Data                998397952 1000214527    1816576
+     NTFS, blocksize=4096, 930 MB / 887 MiB
+SIGHUP detected! TestDisk has been killed.
