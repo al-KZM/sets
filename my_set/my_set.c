@@ -32,6 +32,9 @@
 
 #define same_str(s1, s2) (strcmp(s1, s2) == 0)
 
+void stop(int code){
+    exit(code);
+}
 
 void print_error(int status_code){
     switch (status_code){
@@ -278,7 +281,7 @@ int exec_cmd(char *cmd){
 
     if ( status_code == END_OF_CMD_CODE ){
         if ( same_str(str_ptr, "stop") )
-            stop();
+            stop(0);
         return FAIL_CODE_NO_OPERANDS;
     }
 

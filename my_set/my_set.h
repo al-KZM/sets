@@ -1,5 +1,3 @@
-
-
 char * parse_operation(char *cmd, char *op, int max_len, int *status_code);
 
 void stop(int code);
