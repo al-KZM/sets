@@ -25,6 +25,10 @@
 #define FAIL_CODE_ARG_OUT_OF_RANGE 18
 #define FAIL_CODE_TRAILING_COMMA 19
 #define FAIL_CODE_NO_COMMA_FOUND 20
+#define FAIL_CODE_NO_OPERANDS 21
+#define FAIL_CODE_ILLEGAL_STOP 22
+#define FAIL_CODE_OPERAND_NAME_TOO_SHORT 23
+#define FAIL_CODE_EXPECTED_OPERAND 24
 
 #define same_str(s1, s2) (strcmp(s1, s2) == 0)
 
@@ -158,8 +162,8 @@ char * parse_operand(char *str, char *to, int *status_code){
     *status_code = SUCCESS_CODE;
 
     for (i=0; i < OPERAND_NAME_SIZE; i++){
-        if ( !(isalpha(*str)) ){
-            *status_code = FAIL_CODE_ILLEGAL_OPERAND_NAME;
+        if ( *str == ',' ){
+            *status_code = FAIL_CODE_OPERAND_NAME_TOO_SHORT;
             return NULL;
         }
 
@@ -269,14 +273,39 @@ int exec_cmd(char *cmd){
 
     /*  Parse operation name */
     str_ptr = parse_operation(str_ptr, operation, MAX_OP_LEN, &status_code);
+    if ( str_ptr == NULL )
+        return status_code;
+
+    if ( status_code == END_OF_CMD_CODE ){
+        if ( same_str(str_ptr, "stop") )
+            stop();
+        return FAIL_CODE_NO_OPERANDS;
+    }
+
+    /* If the operation is stop but the command is not empty */
+    if ( same_str(str_ptr, "stop") ){
+        return FAIL_CODE_ILLEGAL_STOP;
+    }
 
     /* Initialize configuration flags for every operation */
     status_code = init_operation_config(operation, &operands_required_num, &args_required);
+    if ( status_code != SUCCESS_CODE )
+        return status_code;
 
     /* Parse the right number of operands */
     for (i=0; i < operands_required_num; i++){
         str_ptr = parse_operand(str_ptr, operands[i], &status_code);
+
+        if (str_ptr == NULL)
+            return status_code;
+
         str_ptr = goto_comma(str_ptr, &comma_pos, &status_code);
+        if (str_ptr == NULL){
+            if ( status_code == FAIL_CODE_NO_COMMA_FOUND )
+                return FAIL_CODE_EXPECTED_OPERAND;
+            else
+                return status_code;
+        }
     }
 
     /* Check if this command needs arguments */
