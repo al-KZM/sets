@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "set.c"
+#include "set.h"
 
 #define MAX_OP_LEN 30
 #define LINE_BUFFER_CAPACITY 30
@@ -29,6 +29,8 @@
 #define FAIL_CODE_ILLEGAL_STOP 22
 #define FAIL_CODE_OPERAND_NAME_TOO_SHORT 23
 #define FAIL_CODE_EXPECTED_OPERAND 24
+#define FAIL_CODE_NOT_ENOUGH_OPERANDS 25
+#define FAIL_CODE_NO_ENDING_CHAR 26
 
 #define same_str(s1, s2) (strcmp(s1, s2) == 0)
 
@@ -122,8 +124,9 @@ int is_valid_operand(char *operand){
 }
 
 int has_consecutive_comma(char *str){
-    while ( *str++ == ' ')
+    while ( isspace(*str++) )
         {}
+    str--;
 
     if (*str == ',')
         return 1;
@@ -146,7 +149,7 @@ char * goto_comma(char *str, int *comma_pos, int *status_code){
         i++;
     }
 
-    if (has_consecutive_comma(str)){
+    if (has_consecutive_comma(str) == 1){
         *status_code = FAIL_CODE_CONSECUTIVE_COMMAS;
         return NULL;
     }
@@ -164,16 +167,29 @@ char * parse_operand(char *str, char *to, int *status_code){
 
     *status_code = SUCCESS_CODE;
 
+    /* Skip all the whitespaces */
+    while ( isspace(*str++) ){}
+    str--;
+
     for (i=0; i < OPERAND_NAME_SIZE; i++){
+        if ( *str == '\0'){
+            *status_code = END_OF_CMD_CODE;
+            break;
+        }
+
         if ( *str == ',' ){
+            printf("Operand name too short: %s", to);
             *status_code = FAIL_CODE_OPERAND_NAME_TOO_SHORT;
             return NULL;
         }
 
-        *to++ = *str++;
+        to[i] = *str++;
     }
 
-    if (!is_valid_operand(to)){
+    to[i] = '\0';
+
+    if ( is_valid_operand(to) == 0 ){
+        printf("Illegal operand name: <%s>\n", to);
         *status_code = FAIL_CODE_ILLEGAL_OPERAND_NAME;
         return NULL;
     }
@@ -209,6 +225,7 @@ char * parse_operation(char *cmd, char *op, int max_len, int *status_code){
         }
 
         *op++ = c;
+        i++;
     }
 
     *op = '\0';
@@ -260,7 +277,7 @@ int exec_cmd(char *cmd){
     char *str_ptr;
 
     char operation[MAX_OP_LEN];
-    char operands[3][4];
+    char operands[3][5];
 
     int number;
     int arguments_count;
@@ -280,7 +297,7 @@ int exec_cmd(char *cmd){
         return status_code;
 
     if ( status_code == END_OF_CMD_CODE ){
-        if ( same_str(str_ptr, "stop") )
+        if ( same_str(operation, "stop") )
             stop(0);
         return FAIL_CODE_NO_OPERANDS;
     }
@@ -298,6 +315,10 @@ int exec_cmd(char *cmd){
     /* Parse the right number of operands */
     for (i=0; i < operands_required_num; i++){
         str_ptr = parse_operand(str_ptr, operands[i], &status_code);
+
+        if (status_code == END_OF_CMD_CODE && i != operands_required_num-1)
+            return FAIL_CODE_EXPECTED_OPERAND;
+
 
         if (str_ptr == NULL)
             return status_code;
@@ -337,7 +358,12 @@ int exec_cmd(char *cmd){
                 }
             }
 
+
+            /* Else go trough the string to next comma to parse the number */
             goto_comma(str_ptr, &comma_pos, &status_code);
+            if (status_code == FAIL_CODE_NO_COMMA_FOUND)
+                return FAIL_CODE_NO_ENDING_CHAR;
+
             number = 0;
             /* Parse number */
             for (j=0; j < comma_pos; j++){
@@ -379,11 +405,34 @@ int main(int argc, char *argv[]){
         printf("\n");
 
         status_code = exec_cmd(line_ptr);
-        if (status_code != SUCCESS_CODE)
-            print_error(status_code);
+        printf("Returned: %d\n", status_code);
 	}
 
 	return 0;
 }
 
+/* int main(int argc, char *argv[]){ */
+/*     set seta = {0}; */
+/*     set setb = {0}; */
+/*     set setc = {0}; */
+
+/*     add_number(seta, 5); */
+/*     add_number(seta, 120); */
+/*     add_number(seta, 78); */
+/*     add_number(seta, 1); */
+
+/*     remove_number(seta, 78); */
+/*     print_set(seta); */
+
+/*     add_number(setb, 10); */
+/*     add_number(setb, 20); */
+/*     print_set(setb); */
+
+/*     union_set(seta, setb, setc); */
+/*     print_set(setc); */
+
+
+/*     return 0; */
+
+/* } */
 
