@@ -1,6 +1,9 @@
+
 char * parse_operation(char *cmd, char *op, int max_len, int *status_code);
 
 void stop(int code);
+
+void print_usage();
 
 void print_error(int status_code);
 

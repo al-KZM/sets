@@ -143,7 +143,7 @@ void union_set(char *set1_name, char *set2_name, char *to_set_name){
     set2 = get_set(set2_name);
     to_set = get_set(to_set_name);
 
-
+	reset_set(*to_set);
 
     for (ix=0; ix <= ARR_SIZE; ix++){
         *to_set[ix] = *set1[ix] | *set2[ix];
@@ -158,6 +158,8 @@ void intersect_set(char *set1_name, char *set2_name, char *to_set_name){
     set2 = get_set(set2_name);
     to_set = get_set(to_set_name);
 
+	reset_set(*to_set);
+
     for (ix=0; ix <= ARR_SIZE; ix++){
         *to_set[ix] = *set1[ix] & *set2[ix];
     }
@@ -171,6 +173,8 @@ void sub_set(char *set1_name, char *set2_name, char *to_set_name){
     set2 = get_set(set2_name);
     to_set = get_set(to_set_name);
 
+	reset_set(*to_set);
+
     for (ix=0; ix <= ARR_SIZE; ix++){
         *to_set[ix] = *set1[ix] & (~*set2[ix]);
     }
@@ -183,6 +187,8 @@ void symdiff_set(char *set1_name, char *set2_name, char *to_set_name){
     set1 = get_set(set1_name);
     set2 = get_set(set2_name);
     to_set = get_set(to_set_name);
+
+	reset_set(*to_set);
 
     for (ix=0; ix <= ARR_SIZE; ix++){
         *to_set[ix] = *set1[ix] ^ *set2[ix];

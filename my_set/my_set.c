@@ -37,41 +37,75 @@
 #define same_str(s1, s2) (strcmp(s1, s2) == 0)
 
 
-
-
-FAIL_CODE_INVALID_COMMA 10
-FAIL_CODE_OP_OVERFLOW 12
-FAIL_CODE_UNKNOWN_CMD 13
-FAIL_CODE_CONSECUTIVE_COMMAS 14
-FAIL_CODE_ILLEGAL_OPERAND_NAME 15
-FAIL_CODE_INVALID_ARGUMENT 16
-FAIL_CODE_BAD_ENDING_POS 17
-FAIL_CODE_ARG_OUT_OF_RANGE 18
-FAIL_CODE_TRAILING_COMMA 19
-FAIL_CODE_NO_COMMA_FOUND 20
-FAIL_CODE_NO_OPERANDS 21
-FAIL_CODE_ILLEGAL_STOP 22
-FAIL_CODE_OPERAND_NAME_TOO_SHORT 23
-FAIL_CODE_EXPECTED_OPERAND 24
-FAIL_CODE_NO_ENDING_CHAR 25
-FAIL_CODE_UNEXPECTED_ARGUMENT 26
-FAIL_CODE_UNEXPECTED_OPERAND 27
-FAIL_CODE_INVALID_CHARACTER 28
-
-
-
-
 void stop(int code){
     exit(code);
 }
 
+void print_usage(){
+    printf("$ command [OPERAND1,[OPERAND2, [OPERAND 3]]][,ARG1,[ARG2,...]],-1]\n");
+}
+
 void print_error(int status_code){
+    printf("Error: ");
     switch (status_code){
         case FAIL_CODE_INVALID_COMMA:
             printf("Invalid comma.");
             break;
+        case FAIL_CODE_OP_OVERFLOW:
+            printf("Operation name is too big.");
+            break;
+        case FAIL_CODE_UNKNOWN_CMD:
+            printf("Unknown command.");
+            break;
+        case FAIL_CODE_CONSECUTIVE_COMMAS:
+            printf("Consecutive commas.");
+            break;
+        case FAIL_CODE_ILLEGAL_OPERAND_NAME:
+            printf("Illegal operand name.");
+            break;
+        case FAIL_CODE_INVALID_ARGUMENT:
+            printf("Invalid argument.");
+            break;
+        case FAIL_CODE_BAD_ENDING_POS:
+            printf("Unexpected ending of the command.");
+            break;
+        case FAIL_CODE_ARG_OUT_OF_RANGE:
+            printf("Argument out of range");
+            break;
+        case FAIL_CODE_TRAILING_COMMA:
+            printf("Trailing comma");
+            break;
+        case FAIL_CODE_NO_COMMA_FOUND:
+            printf("Expected a comma.");
+            break;
+        case FAIL_CODE_NO_OPERANDS:
+            printf("This command require operands");
+            break;
+        case FAIL_CODE_ILLEGAL_STOP:
+            printf("Illegal stop command, it should just be 'stop'.");
+            break;
+        case FAIL_CODE_OPERAND_NAME_TOO_SHORT:
+            printf("Operand name is too short");
+            break;
+        case FAIL_CODE_EXPECTED_OPERAND:
+            printf("Expected operand");
+            break;
 
-    }
+        case FAIL_CODE_NO_ENDING_CHAR:
+            printf("Missing ending character");
+            break;
+        case FAIL_CODE_UNEXPECTED_ARGUMENT:
+            printf("Unexpected argument");
+            break;
+        case FAIL_CODE_UNEXPECTED_OPERAND:
+            printf("Unexpected operand");
+            break;
+        case FAIL_CODE_INVALID_CHARACTER:
+            printf("Invalid character");
+            break;
+            }
+    printf("\n");
+    print_usage();
 }
 
 /*
@@ -462,7 +496,8 @@ int main(int argc, char *argv[]){
         printf("\n");
 
         status_code = exec_cmd(line_ptr);
-        printf("Returned: %d\n", status_code);
+        if (status_code != 0)
+            print_error(status_code);
 	}
 
 	return 0;
