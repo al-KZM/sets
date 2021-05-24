@@ -1,6 +1,5 @@
-
-#define SET_SIZE 127
-#define ARR_SIZE (SET_SIZE/32)+1
+#define SET_SIZE 128
+#define ARR_SIZE SET_SIZE/32
 
 /*
  *
@@ -15,11 +14,12 @@
  *
  * To retrieve the position k of a bit in the array, we'll take the entire
  * part of k/32 to find the right integer and then use the remainder to find the
- * right bit within the 32 bits of the integer.
+ * right bit within the 32 bits of the integer (starting from the right of the byte).
  *
  * Those operations will be wrapped by add_number, search_number and remove_number.
  *
- * In order to be able to store 0, we will add 1 to every value in the set
+ * In order to be able to store 0, we will add 1 to every value in the set, as the very first
+ * value is 0.
  *
  */
 

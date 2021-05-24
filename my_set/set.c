@@ -5,6 +5,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "set.h"
 
 
@@ -22,7 +23,6 @@ void add_number(set s, int n){
 }
 
 void remove_number(set s, int n){
-
 
     int int_ix, bit_ix;
     n += 1;
@@ -47,9 +47,9 @@ int search_number(set s, int n){
 }
 
 void read_set(set s, int *args, int args_num){
-    int ix;
-    while (args_num-- >= 0){
-        s[ix++] = *args++;
+    s = calloc(sizeof(set), 1);
+    while (--args_num >= 0){
+        add_number(s, *args++);
     }
 }
 
