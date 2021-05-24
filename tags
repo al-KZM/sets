@@ -1,0 +1,76 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/home/eyal/documents/university/courses_notes/system_programming/mamanim/maman22/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210110.0/
+ARR_SIZE	my_set/set.h	/^#define ARR_SIZE /;"	d
+CC	Makefile	/^CC = gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS = -Wall -pedantic -ansi -g$/;"	m
+END_OF_CMD_CODE	my_set/my_set.c	/^#define END_OF_CMD_CODE /;"	d	file:
+EOF_CODE	my_set/my_set.c	/^#define EOF_CODE /;"	d	file:
+FAIL_CODE	my_set/my_set.c	/^#define FAIL_CODE /;"	d	file:
+FAIL_CODE_ARG_OUT_OF_RANGE	my_set/my_set.c	/^#define FAIL_CODE_ARG_OUT_OF_RANGE /;"	d	file:
+FAIL_CODE_BAD_ENDING_POS	my_set/my_set.c	/^#define FAIL_CODE_BAD_ENDING_POS /;"	d	file:
+FAIL_CODE_CONSECUTIVE_COMMAS	my_set/my_set.c	/^#define FAIL_CODE_CONSECUTIVE_COMMAS /;"	d	file:
+FAIL_CODE_EXPECTED_OPERAND	my_set/my_set.c	/^#define FAIL_CODE_EXPECTED_OPERAND /;"	d	file:
+FAIL_CODE_ILLEGAL_OPERAND_NAME	my_set/my_set.c	/^#define FAIL_CODE_ILLEGAL_OPERAND_NAME /;"	d	file:
+FAIL_CODE_ILLEGAL_STOP	my_set/my_set.c	/^#define FAIL_CODE_ILLEGAL_STOP /;"	d	file:
+FAIL_CODE_INVALID_ARGUMENT	my_set/my_set.c	/^#define FAIL_CODE_INVALID_ARGUMENT /;"	d	file:
+FAIL_CODE_INVALID_CHARACTER	my_set/my_set.c	/^#define FAIL_CODE_INVALID_CHARACTER /;"	d	file:
+FAIL_CODE_INVALID_COMMA	my_set/my_set.c	/^#define FAIL_CODE_INVALID_COMMA /;"	d	file:
+FAIL_CODE_NO_COMMA_FOUND	my_set/my_set.c	/^#define FAIL_CODE_NO_COMMA_FOUND /;"	d	file:
+FAIL_CODE_NO_ENDING_CHAR	my_set/my_set.c	/^#define FAIL_CODE_NO_ENDING_CHAR /;"	d	file:
+FAIL_CODE_NO_OPERANDS	my_set/my_set.c	/^#define FAIL_CODE_NO_OPERANDS /;"	d	file:
+FAIL_CODE_OPERAND_NAME_TOO_SHORT	my_set/my_set.c	/^#define FAIL_CODE_OPERAND_NAME_TOO_SHORT /;"	d	file:
+FAIL_CODE_OP_OVERFLOW	my_set/my_set.c	/^#define FAIL_CODE_OP_OVERFLOW /;"	d	file:
+FAIL_CODE_TRAILING_COMMA	my_set/my_set.c	/^#define FAIL_CODE_TRAILING_COMMA /;"	d	file:
+FAIL_CODE_UNEXPECTED_ARGUMENT	my_set/my_set.c	/^#define FAIL_CODE_UNEXPECTED_ARGUMENT /;"	d	file:
+FAIL_CODE_UNEXPECTED_OPERAND	my_set/my_set.c	/^#define FAIL_CODE_UNEXPECTED_OPERAND /;"	d	file:
+FAIL_CODE_UNKNOWN_CMD	my_set/my_set.c	/^#define FAIL_CODE_UNKNOWN_CMD /;"	d	file:
+LINE_BUFFER_CAPACITY	my_set/my_set.c	/^#define LINE_BUFFER_CAPACITY /;"	d	file:
+MAX_OP_LEN	my_set/my_set.c	/^#define MAX_OP_LEN /;"	d	file:
+OPERAND_NAME_SIZE	my_set/my_set.c	/^#define OPERAND_NAME_SIZE /;"	d	file:
+OUT_DIR	Makefile	/^OUT_DIR=out$/;"	m
+SETA	my_set/my_set.c	/^set *SETA ,*SETB ,*SETC ,*SETD ,*SETE ,*SETF;$/;"	v	typeref:typename:set *
+SETB	my_set/my_set.c	/^set *SETA ,*SETB ,*SETC ,*SETD ,*SETE ,*SETF;$/;"	v	typeref:typename:set *
+SETC	my_set/my_set.c	/^set *SETA ,*SETB ,*SETC ,*SETD ,*SETE ,*SETF;$/;"	v	typeref:typename:set *
+SETD	my_set/my_set.c	/^set *SETA ,*SETB ,*SETC ,*SETD ,*SETE ,*SETF;$/;"	v	typeref:typename:set *
+SETE	my_set/my_set.c	/^set *SETA ,*SETB ,*SETC ,*SETD ,*SETE ,*SETF;$/;"	v	typeref:typename:set *
+SETF	my_set/my_set.c	/^set *SETA ,*SETB ,*SETC ,*SETD ,*SETE ,*SETF;$/;"	v	typeref:typename:set *
+SET_SIZE	my_set/set.h	/^#define SET_SIZE /;"	d
+SRC_DIR	Makefile	/^SRC_DIR=my_set$/;"	m
+STOP_CODE	my_set/my_set.c	/^#define STOP_CODE /;"	d	file:
+SUCCESS_CODE	my_set/my_set.c	/^#define SUCCESS_CODE /;"	d	file:
+add_number	my_set/set.c	/^void add_number(set s, int n){$/;"	f	typeref:typename:void
+all	Makefile	/^all:my_set.o set.o$/;"	t
+count_commas	my_set/my_set.c	/^int count_commas(char *str){$/;"	f	typeref:typename:int
+exec_cmd	my_set/my_set.c	/^int exec_cmd(char *cmd){$/;"	f	typeref:typename:int
+get_set	my_set/my_set.c	/^set *get_set(char *set_name){$/;"	f	typeref:typename:set *
+goto_comma	my_set/my_set.c	/^char * goto_comma(char *str, int *comma_pos, int *status_code){$/;"	f	typeref:typename:char *
+has_consecutive_comma	my_set/my_set.c	/^int has_consecutive_comma(char *str){$/;"	f	typeref:typename:int
+init_operation_config	my_set/my_set.c	/^int init_operation_config(char *operation, int *operands_required_num, int *args_required){$/;"	f	typeref:typename:int
+intersect_set	my_set/set.c	/^void intersect_set(set set1, set set2, set to_set){$/;"	f	typeref:typename:void
+is_valid_operand	my_set/my_set.c	/^int is_valid_operand(char *operand){$/;"	f	typeref:typename:int
+main	my_set/my_set.c	/^int main(int argc, char *argv[]){$/;"	f	typeref:typename:int
+my_set.o	Makefile	/^my_set.o: set.o $(SRC_DIR)\/my_set.c $(SRC_DIR)\/my_set.h$/;"	t
+parse_operand	my_set/my_set.c	/^char * parse_operand(char *str, char *to, int *status_code){$/;"	f	typeref:typename:char *
+parse_operation	my_set/my_set.c	/^char * parse_operation(char *cmd, char *op, int max_len, int *status_code){$/;"	f	typeref:typename:char *
+print_error	my_set/my_set.c	/^void print_error(int status_code){$/;"	f	typeref:typename:void
+print_set	my_set/set.c	/^void print_set(set s){$/;"	f	typeref:typename:void
+read_line	my_set/my_set.c	/^int read_line(char **buf_ptr){$/;"	f	typeref:typename:int
+read_set	my_set/set.c	/^void read_set(set s, int *args, int args_num){$/;"	f	typeref:typename:void
+remove_number	my_set/set.c	/^void remove_number(set s, int n){$/;"	f	typeref:typename:void
+same_str	my_set/my_set.c	/^#define same_str(/;"	d	file:
+search_number	my_set/set.c	/^int search_number(set s, int n){$/;"	f	typeref:typename:int
+set	my_set/set.h	/^typedef int set[ARR_SIZE];$/;"	t	typeref:typename:int[ARR_SIZE]
+set.o	Makefile	/^set.o: $(SRC_DIR)\/set.c $(SRC_DIR)\/set.h$/;"	t
+stop	my_set/my_set.c	/^void stop(int code){$/;"	f	typeref:typename:void
+sub_set	my_set/set.c	/^void sub_set(set set1, set set2, set to_set){$/;"	f	typeref:typename:void
+symdiff_set	my_set/set.c	/^void symdiff_set(set set1, set set2, set to_set){$/;"	f	typeref:typename:void
+union_set	my_set/set.c	/^void union_set(set set1, set set2, set to_set){$/;"	f	typeref:typename:void

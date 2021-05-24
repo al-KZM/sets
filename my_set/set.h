@@ -26,29 +26,35 @@
 typedef int set[ARR_SIZE];
 
 /*
+ * Return the set corresponding to <set_name>
+ */
+set *get_set(char *set_name);
+void reset_set(set s);
+
+/*
  *
  * Add or remove a number <n> from a set <s>
  *
  * The logic of this function is described in the documentation of the set typedef
  */
-void add_number(set s, int n);
-void remove_number(set s, int n);
+void add_number(char *set_name, int n);
+void remove_number(char *set_name, int n);
 
 /*
  * Return 1 if the number exists in the set else 0
  */
-int search_number(set s, int n);
+int search_number(char *set_name, int n);
 
 
 /*
  * Output the content of the set to stdout
  */
-void print_set(set s);
+void print_set(char *set_name);
 
 /*
  * Adds an undefined number of arguments into a set
  */
-void read_set(set s, int *, int args_num);
+void read_set(char *set_name, int *args, int args_num);
 
 /*
  * The following function store the result of
@@ -58,23 +64,23 @@ void read_set(set s, int *, int args_num);
 /*
  * Union: the set containing all elements that appear in set1 or set2
  */
-void union_set(set set1, set set2, set to_set);
+void union_set(char *set1_name, char *set2_name, char *to_set_name);
 
 /*
  * Intersect: the set containing all elements that appear in set1 and set2
  */
-void intersect_set(set set1, set set2, set to_set);
+void intersect_set(char *set1_name, char *set2_name, char *to_set_name);
 
 /*
  * Sub: the set containing all the elements that appear in set1 but not in set2
  */
-void sub_set(set set1, set set2, set to_set);
+void sub_set(char *set1_name, char *set2_name, char *to_set_name);
 
 /*
  * Symdiff: the set containing all the elements that appear in only one of
  * set1 and set2
  */
-void symdiff_set(set set1, set set2, set to_set);
+void symdiff_set(char *set1_name, char *set2_name, char *to_set_name);
 
 
 

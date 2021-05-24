@@ -37,12 +37,28 @@
 #define same_str(s1, s2) (strcmp(s1, s2) == 0)
 
 
-set SETA = {0};
-set SETB = {0};
-set SETC = {0};
-set SETD = {0};
-set SETE = {0};
-set SETF = {0};
+
+
+FAIL_CODE_INVALID_COMMA 10
+FAIL_CODE_OP_OVERFLOW 12
+FAIL_CODE_UNKNOWN_CMD 13
+FAIL_CODE_CONSECUTIVE_COMMAS 14
+FAIL_CODE_ILLEGAL_OPERAND_NAME 15
+FAIL_CODE_INVALID_ARGUMENT 16
+FAIL_CODE_BAD_ENDING_POS 17
+FAIL_CODE_ARG_OUT_OF_RANGE 18
+FAIL_CODE_TRAILING_COMMA 19
+FAIL_CODE_NO_COMMA_FOUND 20
+FAIL_CODE_NO_OPERANDS 21
+FAIL_CODE_ILLEGAL_STOP 22
+FAIL_CODE_OPERAND_NAME_TOO_SHORT 23
+FAIL_CODE_EXPECTED_OPERAND 24
+FAIL_CODE_NO_ENDING_CHAR 25
+FAIL_CODE_UNEXPECTED_ARGUMENT 26
+FAIL_CODE_UNEXPECTED_OPERAND 27
+FAIL_CODE_INVALID_CHARACTER 28
+
+
 
 
 void stop(int code){
@@ -54,22 +70,8 @@ void print_error(int status_code){
         case FAIL_CODE_INVALID_COMMA:
             printf("Invalid comma.");
             break;
-    }
-}
 
-set *get_set(char *set_name){
-    if (same_str(set_name, "SETA"))
-        return &SETA;
-    else if (same_str(set_name, "SETB"))
-        return &SETB;
-    else if (same_str(set_name, "SETC"))
-        return &SETC;
-    else if (same_str(set_name, "SETD"))
-        return &SETD;
-    else if (same_str(set_name, "SETE"))
-        return &SETE;
-    else
-        return &SETF;
+    }
 }
 
 /*
@@ -214,8 +216,7 @@ char * parse_operand(char *str, char *to, int *status_code){
 
     to[i] = '\0';
 
-    if ( is_valid_operand(to) == 0 ){
-        printf("Illegal operand name: <%s>\n", to);
+    if (is_valid_operand(to) == 0 ){
         *status_code = FAIL_CODE_ILLEGAL_OPERAND_NAME;
         return NULL;
     }
@@ -304,7 +305,6 @@ int exec_cmd(char *cmd){
 
     char operation[MAX_OP_LEN];
     char operands[3][5];
-    set *sets_operands[3];
 
     int number;
     int arguments_count;
@@ -346,8 +346,6 @@ int exec_cmd(char *cmd){
         if (status_code == END_OF_CMD_CODE && i != operands_required_num-1)
             return FAIL_CODE_EXPECTED_OPERAND;
 
-        sets_operands[i] = get_set(operands[i]);
-
         if (str_ptr == NULL)
             return status_code;
 
@@ -380,15 +378,15 @@ int exec_cmd(char *cmd){
 
         /* Execute the operation with the right operands */
         if (same_str(operation, "print_set"))
-            print_set( *sets_operands[0] );
+            print_set( operands[0] );
         else if (same_str(operation, "union_set"))
-            union_set( *sets_operands[0], *sets_operands[1], *sets_operands[2] );
+            union_set( operands[0], operands[1], operands[2] );
         else if (same_str(operation, "intersect_set"))
-            intersect_set( *sets_operands[0], *sets_operands[1], *sets_operands[2]);
+            intersect_set( operands[0], operands[1], operands[2]);
         else if (same_str(operation, "sub_set"))
-            sub_set( *sets_operands[0], *sets_operands[1], *sets_operands[2] );
+            sub_set( operands[0], operands[1], operands[2] );
         else if (same_str(operation, "symdiff_set"))
-            symdiff_set( *sets_operands[0], *sets_operands[1], *sets_operands[2] );
+            symdiff_set( operands[0], operands[1], operands[2] );
     }
     else{ /* Parse the arguments */
 
@@ -439,7 +437,7 @@ int exec_cmd(char *cmd){
             str_ptr++;
 
         } /* End of argument parsing */
-        read_set( *sets_operands[0], arguments, arguments_count );
+        read_set( operands[0], arguments, arguments_count );
 
     }
 
