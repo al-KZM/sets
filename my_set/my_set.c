@@ -183,6 +183,7 @@ int read_line(char **buf_ptr){
             /* allocate more memory to the buffer array */
 
             *buf_ptr = (char *) realloc(*buf_ptr, LINE_BUFFER_CAPACITY*++alloc_count);
+            running_ptr = (*buf_ptr)+(LINE_BUFFER_CAPACITY*(alloc_count-1));    /* Set running_ptr to the end of the buffer */
 
             /* Check for fail, if so, exit the function */
             if (*buf_ptr == NULL){
