@@ -37,6 +37,32 @@
 #define same_str(s1, s2) (strcmp(s1, s2) == 0)
 
 
+struct group_of_sets{
+    set SETA;
+    set SETB;
+    set SETC;
+    set SETD;
+    set SETE;
+    set SETF;
+} sets = { {0}, {0},{0},{0},{0},{0}};
+
+
+set *get_set(char *set_name){
+    if (same_str(set_name, "SETA"))
+        return &( sets.SETA );
+    else if (same_str(set_name, "SETB"))
+        return &( sets.SETB );
+    else if (same_str(set_name, "SETC"))
+        return &( sets.SETC );
+    else if (same_str(set_name, "SETD"))
+        return &( sets.SETD );
+    else if (same_str(set_name, "SETE"))
+        return &( sets.SETE );
+    else
+        return &( sets.SETF );
+}
+
+
 void stop(int code){
     exit(code);
 }
@@ -224,8 +250,9 @@ char * goto_comma(char *str, int *comma_pos, int *status_code){
 
 }
 
-char * parse_operand(char *str, char *to, int *status_code){
+char * parse_operand(char *str, set **to_set, int *status_code){
     int i;
+    char set_name[OPERAND_NAME_SIZE];
 
     *status_code = SUCCESS_CODE;
 
@@ -240,20 +267,21 @@ char * parse_operand(char *str, char *to, int *status_code){
         }
 
         if ( *str == ',' ){
-            printf("Operand name too short: %s", to);
             *status_code = FAIL_CODE_OPERAND_NAME_TOO_SHORT;
             return NULL;
         }
 
-        to[i] = *str++;
+        set_name[i] = *str++;
     }
 
-    to[i] = '\0';
+    set_name[i] = '\0';
 
-    if (is_valid_operand(to) == 0 ){
+    if (is_valid_operand(set_name) == 0 ){
         *status_code = FAIL_CODE_ILLEGAL_OPERAND_NAME;
         return NULL;
     }
+
+    *to_set = get_set(set_name);
 
     return str;
 }
@@ -312,7 +340,7 @@ int init_operation_config(char *operation, int *operands_required_num, int *args
                 same_str("symdiff_set", operation)
                 ){
             *operands_required_num = 3;
-            *args_required = 1;
+            *args_required = 0;
         }
         else{
             return FAIL_CODE_UNKNOWN_CMD;
@@ -338,7 +366,7 @@ int exec_cmd(char *cmd){
     char *str_ptr;
 
     char operation[MAX_OP_LEN];
-    char operands[3][5];
+    set *operands[3];
 
     int number;
     int arguments_count;
@@ -375,7 +403,7 @@ int exec_cmd(char *cmd){
 
     /* Parse the right number of operands */
     for (i=0; i < operands_required_num; i++){
-        str_ptr = parse_operand(str_ptr, operands[i], &status_code);
+        str_ptr = parse_operand(str_ptr, operands+i, &status_code);
 
         if (status_code == END_OF_CMD_CODE && i != operands_required_num-1)
             return FAIL_CODE_EXPECTED_OPERAND;
@@ -410,8 +438,7 @@ int exec_cmd(char *cmd){
                 return FAIL_CODE_INVALID_CHARACTER;
         }
 
-        /* Execute the operation with the right operands */
-        if (same_str(operation, "print_set"))
+        if ( same_str(operation, "print_set") )
             print_set( operands[0] );
         else if (same_str(operation, "union_set"))
             union_set( operands[0], operands[1], operands[2] );

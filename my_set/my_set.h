@@ -1,3 +1,4 @@
+set *get_set(char *set_name);
 
 char * parse_operation(char *cmd, char *op, int max_len, int *status_code);
 
